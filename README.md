@@ -1,4 +1,4 @@
-# PinballSimulation
+# Cloth and Water Simulations
 ![Image of the cloth Simulation - TODO](clothsim.png)
 ![Image of the water Simulation - TODO](watersim.png)
 
