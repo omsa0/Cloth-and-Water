@@ -17,7 +17,7 @@ void setup() {
 // ==============
 
 // Physics Constants
-Vec2 gravity = new Vec2(0, 3000);
+Vec2 gravity = new Vec2(0, 750);
 
 // Physics Parameters
 int sub_steps = 5;
@@ -33,9 +33,9 @@ int n = 30;
 int r = 30;
 int numP = n * r;
 double rad = 10; //radius, same for all particles
-double k_smooth_radius = 24;
+double k_smooth_radius = 28;
 double k_stiff = 150;
-double k_stiffN = 1000;
+double k_stiffN = 100000;
 double k_rest_density = 0.2;
 double grab_radius = 100;
 Particle particles[] = new Particle[numP];
@@ -90,7 +90,7 @@ void update_physics(double dt) {
       Vec2 normal = (p.pos.minus(op)).normalized();
       p.pos = op.plus(normal.times(or+rad));
       Vec2 velNormal = normal.times(dot(p.vel, normal));
-      p.vel.subtract(velNormal.times(1 + 0.3));
+      p.vel.subtract(velNormal.times(1 + 0.4));
     }
     
     // Obstacle 2
@@ -98,7 +98,7 @@ void update_physics(double dt) {
       Vec2 normal = (p.pos.minus(op2)).normalized();
       p.pos = op2.plus(normal.times(or+rad));
       Vec2 velNormal = normal.times(dot(p.vel, normal));
-      p.vel.subtract(velNormal.times(1 + 0.3));
+      p.vel.subtract(velNormal.times(1 + 0.4));
     }
 
     // Integrate position based on velocity
@@ -138,7 +138,7 @@ void update_physics(double dt) {
     p.press = k_stiff*(p.dens - k_rest_density);
     p.pressN = k_stiffN*(p.densN);
     if (p.press > 30) p.press = 30;      // maximum pressure
-    if (p.pressN > 300) p.pressN = 300;  // maximum near pressure
+    if (p.pressN > 30000) p.pressN = 30000;  // maximum near pressure
     //println(p.dens, p.densN);
   }
   
@@ -152,12 +152,12 @@ void update_physics(double dt) {
 
     Vec2 move1 = a.pos.minus(b.pos);
     move1.normalize();
-    move1.times(displace);
+    move1 = move1.times(displace);
     a.pos.add(move1);
 
     Vec2 move2 = b.pos.minus(a.pos);
     move2.normalize();
-    move2.times(displace);
+    move2 = move2.times(displace);
     b.pos.add(move2);
   }
 }
