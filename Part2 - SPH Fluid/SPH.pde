@@ -9,7 +9,6 @@
 // ==============
 void setup() {
   size(1200, 750);
-  generateWater();
 }
 
 // ==============
@@ -24,32 +23,22 @@ int sub_steps = 5;
 
 // Obstacles
 double or = 170; // Obstacle Radius, same for both
-Vec2 op = new Vec2(500, 400); // Obstacle Position
+Vec2 op = new Vec2(300, 400); // Obstacle Position
 
-Vec2 op2 = new Vec2(1100, 650);
+Vec2 op2 = new Vec2(900, 650);
 
 // Particle Properties
-int n = 30;
-int r = 30;
-int numP = n * r;
+int n = 35;
+int r = 35;
+int maxP = n * r;
+int numP = 0;
 double rad = 10; //radius, same for all particles
 double k_smooth_radius = 28;
-double k_stiff = 150;
+double k_stiff = 1500;
 double k_stiffN = 100000;
 double k_rest_density = 0.2;
 double grab_radius = 100;
-Particle particles[] = new Particle[numP];
-
-// ==============
-// Water Generation
-// ==============
-void generateWater() {
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < r; j++) {
-      particles[j + i*r] = new Particle(new Vec2((rad*2) * j + rad + (5*i), (2*rad + 3) * i + rad));
-    }
-  }
-}
+Particle particles[] = new Particle[maxP];
 
 // ==============
 // Physics and Visualization-
@@ -137,7 +126,7 @@ void update_physics(double dt) {
     Particle p = particles[i];
     p.press = k_stiff*(p.dens - k_rest_density);
     p.pressN = k_stiffN*(p.densN);
-    if (p.press > 30) p.press = 30;      // maximum pressure
+    if (p.press > 300) p.press = 300;      // maximum pressure
     if (p.pressN > 30000) p.pressN = 30000;  // maximum near pressure
     //println(p.dens, p.densN);
   }
@@ -166,7 +155,7 @@ boolean paused = false;
 void keyPressed()
 {
   if (key == 'z') {
-    generateWater();
+    numP = 0;
   }
   if (key == ' ') {
     paused = !paused;
@@ -193,10 +182,24 @@ void mouseReleased() {
 void draw() {
   double dt = 1/frameRate;
   background(0);
-
-  // Physics
+  noStroke();
+  
   //println("fps:", frameRate);
   if (!paused) {
+    // Particle Generation
+    double genRate = 300;
+    double toGen_float = genRate * dt;
+    int toGen = (int)toGen_float;
+    double fractPart = toGen_float - toGen;
+    if (random(1) < fractPart) toGen += 1;
+    for (int i = 0; i < toGen; i++){
+      if (numP >= maxP) break;
+      particles[numP] = new Particle(new Vec2(random(50, width-50),0));
+      particles[numP].vel = new Vec2(0, 0); 
+      numP += 1;
+    }
+    
+    // Physics
     for (int i = 0; i < sub_steps; i++) {
       double sim_dt = dt/sub_steps;
       if (sim_dt > 0.008) sim_dt = 0.008;
@@ -207,11 +210,11 @@ void draw() {
   // Particles
   for (int i = 0; i < numP; i++) {
     Particle p = particles[i];
-    float q = (float)(p.press)/30;
+    float q = (float)(p.press)/300;
     float r = ((0.7-q*0.5)*255);
     float g = ((0.8-q*0.4)*255);
     float b = ((1.0-q*0.2)*255);
-    fill(r, g, b);
+    fill(r, g, b, 255 - (q*255 - 200));
     circle((float)p.pos.x, (float)p.pos.y, (float)(2*rad));
   }
   

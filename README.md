@@ -14,7 +14,7 @@ A Rod-based cloth and SPH fluid simulations, created for CSCI 5611 by Omar Salem
 
 ## Difficulties Encountered TODO
 
-## Libraries used
+## Libraries Used
 No external libraries outside of the provided Processing libraries were used.
 
 ## Attribution
