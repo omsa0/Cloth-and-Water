@@ -9,7 +9,7 @@ A Rod-based cloth and SPH fluid simulations, created for CSCI 5611 by Omar Salem
 [Water - YouTube Demo](https://youtu.be/glHPKJ2ocBM)
 
 ### Features & Timestamps
-## Part 1 - Cloth:
+#### Part 1 - Cloth:
 1. 00:08 - Multiple Ropes
 
     The simulation must support multiple ropes which are hanging from the top and can swing naturally, as well as interacting with an obstacle. Obstacle interaction can be seen more in the "User Interaction" section below. While the simulation may not look like multiple ropes, a cloth is multiple ropes with extra horizontal constraints so it fulfills this requirement.
@@ -30,7 +30,7 @@ A Rod-based cloth and SPH fluid simulations, created for CSCI 5611 by Omar Salem
     
     The obstacle in the simulation can be controlled by the user to interact with the cloth and push it around to better understand it's behavior.
 
-## Part 2 - Water:
+#### Part 2 - Water:
 No specific timestamps, as the [video](https://youtu.be/glHPKJ2ocBM) covers all of it. The chosen challenge simulation was an SPH fluid simulation. The fluid is comprised of multiple particles that represent water. They interact with their environment with gravity and obstacle/wall bouncing. The particles interact with each other using near forces that push particles away from each other so that they don't overlap, and pressure forces that cause the particles to look like they are behaving and moving like the other particles around them, effectively making the movement of the particles together look like a fluid. The fluid can be interacted with using the mouse to drag it around and explore the results of the forces on the particles in different scenarios.
 
 ## Difficulties Encountered
